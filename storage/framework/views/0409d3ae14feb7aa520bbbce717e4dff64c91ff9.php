@@ -1,0 +1,47 @@
+<?php
+    $var = getSettings('update_warning_modal')['update_warning_modal'] ?? 0;
+?>
+<div class="show-update-note-modal">
+    <?php if(getSettings('system_version')['system_version'] == '1.0.7' && $var != 1): ?>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary d-none" id="UpdateDetailsModalButton" data-toggle="modal" data-target="#UpdateDetails">
+            Launch static backdrop modal
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="UpdateDetails" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="UpdateDetailsLabel">PLEASE READ CAREFULLY</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    <ul>
+                        <li>Update the detials of Fees Class's Fees Choiceable Data by clicking here <br><a class="btn btn-theme btn-sm" href="<?php echo e(route('fees.class.index')); ?>">Click Here</a></li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-theme" id="confirmed-modal">Understood</button>
+                </div>
+            </div>
+            </div>
+        </div>
+        <script>
+            $('#UpdateDetailsModalButton').click();
+            $('#confirmed-modal').click(function(e){
+                e.preventDefault();
+                $.ajax({
+                    type: "get",
+                    url: "<?php echo e(route('update-warning-modal')); ?>",
+                    success: function (response) {
+                        $('#UpdateDetails').modal("hide");
+                    }
+                });
+            })
+        </script>
+    <?php endif; ?>
+</div>
+<?php /**PATH /var/www/public_html/smartschoolpay/resources/views/after-update-note-modal.blade.php ENDPATH**/ ?>
